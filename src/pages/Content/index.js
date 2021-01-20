@@ -11,8 +11,11 @@ chrome.runtime.onMessage.addListener(function ({ type, data }, sender, sendRespo
   if (type === 'apply') {
     console.log(JSON.parse(data));
     applyBackup(JSON.parse(data));
-  } else {
+    window.alert('Download & apply successfully');
+  } else if (type === 'getBackup') {
     const data = JSON.stringify(Object.entries(localStorage));
     chrome.runtime.sendMessage({ type: 'upload', data: data });
+  } else if (type === 'alert') {
+    window.alert(data);
   }
 });

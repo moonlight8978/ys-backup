@@ -30,6 +30,9 @@ chrome.runtime.onMessage.addListener(({ type, data }, sender, sendResponse) => {
       )
       .then((response) => {
         console.log(response);
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+          chrome.tabs.sendMessage(tabs[0].id, { type: 'alert', data: 'Upload successfully' });
+        });
       })
       .catch((error) => {
         console.error(error);
