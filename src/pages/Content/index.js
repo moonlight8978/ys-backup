@@ -1,6 +1,21 @@
-import { printLine } from './modules/print';
+const applyBackup = (secrets) => {
+  secrets.forEach(([secretId, foundFlag]) => {
+    if (foundFlag === '1' && secretId.match(/^[\d|_]+$/)) {
+      localStorage.setItem(secretId, foundFlag);
+    }
+  });
+};
 
-console.log('Content script works!');
-console.log('Must reload extension for modifications to take effect.');
-
-printLine("Using the 'printLine' function from the Print Module");
+chrome.runtime.onMessage.addListener(function ({ type, data }, sender, sendResponse) {
+  console.log(sender.tab ? 'from a content script:' + sender.tab.url : 'from the extension');
+  if (type === 'apply') {
+    console.log(JSON.parse(data));
+    applyBackup(JSON.parse(data));
+    window.alert('Download & apply successfully');
+  } else if (type === 'getBackup') {
+    const data = JSON.stringify(Object.entries(localStorage));
+    chrome.runtime.sendMessage({ type: 'upload', data: data });
+  } else if (type === 'alert') {
+    window.alert(data);
+  }
+});
