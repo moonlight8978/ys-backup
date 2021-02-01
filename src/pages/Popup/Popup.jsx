@@ -1,8 +1,6 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Popup.css';
-import { Button } from 'react-bootstrap';
 import axios from 'axios';
+import { Button } from '../../components/Button';
 
 const client = axios.create({
   baseURL: 'https://api.github.com',
@@ -37,18 +35,18 @@ const goToOptionsPage = () => {
 const Popup = () => {
   return (
     <>
-      <div className="popup__button-container">
-        <Button onClick={uploadGist} variant="success" className="popup__button">
+      <div className="flex">
+        <Button onClick={uploadGist} className="flex-1" color="red">
           Upload progress
         </Button>
 
-        <Button onClick={downloadGist} variant="warning" className="popup__button">
+        <Button onClick={downloadGist} className="flex-1" color="green">
           Download progress
         </Button>
       </div>
 
-      <div className="popup__configure">
-        <Button onClick={goToOptionsPage} variant="link">
+      <div className="my-3 flex justify-center">
+        <Button onClick={goToOptionsPage} color="blue">
           Configure
         </Button>
       </div>
